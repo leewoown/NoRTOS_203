@@ -1,0 +1,314 @@
+
+//###########################################################################
+//
+// FILE:   DSP28x_Project.h
+//
+// TITLE:  DSP28x Project Headerfile and Examples Include File
+//
+//###########################################################################
+// $TI Release: $
+// $Release Date: $
+// $Copyright:
+// Copyright (C) 2009-2024 Texas Instruments Incorporated - http://www.ti.com/
+//
+// Redistribution and use in source and binary forms, with or without 
+// modification, are permitted provided that the following conditions 
+// are met:
+// 
+//   Redistributions of source code must retain the above copyright 
+//   notice, this list of conditions and the following disclaimer.
+// 
+//   Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the 
+//   documentation and/or other materials provided with the   
+//   distribution.
+// 
+//   Neither the name of Texas Instruments Incorporated nor the names of
+//   its contributors may be used to endorse or promote products derived
+//   from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// $
+//###########################################################################
+
+#ifndef DSP28x_PROJECT_H
+#define DSP28x_PROJECT_H
+
+//
+// Included Files
+//
+#include "F2806x_Cla_typedefs.h"// F2806x CLA Type definitions
+#include "F2806x_Device.h"      // F2806x Headerfile Include File
+#include "F2806x_Examples.h"   	// F2806x Examples Include File
+
+
+//EDLAY 매크로 선언 --------------------------------------------------------------------//
+
+// TI SDK 1.10의 소스 DSP2803x_usDelay.asm에서 제공하는 DELAY_US 함수를 사용
+
+// TI SDK 1.10의 소스 DSP2803x_usDelay.asm에서 제공하는 DELAY_US 함수를 사용
+#define delay_us(us)        DELAY_US(us)
+// TI SDK 1.10의 소스 DSP2803x_usDelay.asm에서 제공하는 DELAY_US 함수를 사용
+#define delay_ms(ms)        DELAY_US(ms*1000)
+//#define  SPI_Read()          SPI_READ()
+/*-------------------------------------------------------------------------------
+Next, definitions used in main file.
+-------------------------------------------------------------------------------*/
+#define TRUE    1
+#define FALSE   0
+#define TRUE    1
+#define ON      1
+#define OFF     0
+
+struct ParentDeviceCMD_BIT
+{
+    // bits   description
+   unsigned int     POWEREN                 :1;   // 0
+   unsigned int     SW01                    :1;   // 2
+   unsigned int     SW02                    :1;   // 3
+   unsigned int     SW03                    :1;   // 4
+   unsigned int     SW04                    :1;   // 5
+   unsigned int     SW05                    :1;   // 6
+   unsigned int     SW06                    :1;   // 6
+   unsigned int     SW07                    :1;   // 7
+   unsigned int     SW08                    :1;   // 8
+   unsigned int     SW09                    :1;   // 9
+   unsigned int     SW10                    :1;   // 11
+   unsigned int     SW11                    :1;   // 12
+   unsigned int     SW12                    :1;   // 13
+   unsigned int     SW13                    :1;   // 14
+   unsigned int     SW14                    :1;   // 15
+   unsigned int     SW15                    :1;   // 16
+};
+union ParentDeviceCMD_REG
+{
+   unsigned int     all;
+   struct ParentDeviceCMD_BIT bit;
+};
+
+struct DigitalInPut_BIT
+{       // bits   description
+   unsigned int     IDSW                    :2;   // 0
+   unsigned int     PAUX                    :1;   // 2
+   unsigned int     NAUX                    :1;   // 3
+   unsigned int     CHAAUX                  :1;   // 4
+   unsigned int     CANRX0                  :1;   // 5
+   unsigned int     CANRX1                  :1;   // 6
+   unsigned int     SW07                    :1;   // 7
+   unsigned int     SW08                    :1;   // 8
+   unsigned int     SW09                    :1;   // 9
+   unsigned int     SW10                    :1;   // 11
+   unsigned int     SW11                    :1;   // 12
+   unsigned int     SW12                    :1;   // 13
+   unsigned int     SW13                    :1;   // 14
+   unsigned int     SW14                    :1;   // 15
+   unsigned int     SW15                    :1;   // 16
+};
+union DigitalInput_REG
+{
+   unsigned int     all;
+   struct DigitalInPut_BIT bit;
+};
+
+struct DigitalOutPut_BIT
+{       // bits   description
+    unsigned int     RRlyOUT                :1; // 0
+    unsigned int     NRlyOUT                :1; // 1
+    unsigned int     CHARlyOUT              :1; // 2
+    unsigned int     StartBATOUT            :1; // 3
+    unsigned int     IMDTOPOUT              :1; // 4
+    unsigned int     IMDBOTOUT              :1; // 5
+    unsigned int     LEDSysOUT              :1; // 6
+    unsigned int     LEDCAnOUT              :1; // 7
+    unsigned int     LEDAlarmOUT            :1; // 8
+    unsigned int     LEDFaultOUT            :1; // 9
+    unsigned int     LEDProtectOUT          :1; // 10
+    unsigned int     DO011                  :1; // 11
+    unsigned int     DO012                  :1; // 12
+    unsigned int     DO013                  :1; // 13
+    unsigned int     DO014                  :1; // 14
+    unsigned int     DO015                  :1; // 15
+};
+union DigitalOutPut_REG
+{
+   unsigned int     all;
+   struct DigitalOutPut_BIT bit;
+};
+typedef enum
+{
+   System_STATE_INIT,
+   System_STATE_STANDBY,
+   System_STATE_READY,
+   System_STATE_RUNING,
+   System_STATE_PROTECTER,
+   System_STATE_DATALOG,
+   System_STATE_ProtectHistory,
+   System_STATE_MANUALMode,
+   System_STATE_CLEAR
+} SysState;
+struct SystemState_BIT
+{       // bits   description
+    unsigned int     INITOK              :1; // 0
+    unsigned int     Aalarm              :1; // 1
+    unsigned int     Fault               :1; // 2
+    unsigned int     RelayStateA         :1; // 3
+    unsigned int     BalanceState        :1; // 4
+    unsigned int     CANCOMEnable        :1; // 5
+    unsigned int     NC1                 :1; // 6
+    unsigned int     NC2                 :1; // 7
+    unsigned int     NVRAMICComm         :1; // 8
+    unsigned int     TCPIPRXCOM          :1; // 9
+    unsigned int     TCPIPTXCOM          :1; // 10
+    unsigned int     EEPROMRD            :1; // 11
+    unsigned int     EEPROMWR            :1; // 12
+    unsigned int     TVVOLTAGESAVE       :1; // 13
+    unsigned int     ForceBalance        :1; // 14
+    unsigned int     BalanceStartStop    :1; // 15
+};
+union SystemState_REG
+{
+   unsigned int     all;
+   struct SystemState_BIT bit;
+};
+struct SystemAlarm_BIT
+{       // bits   description
+    unsigned int     STATE00         :1; // 0
+    unsigned int     STATE01         :1; // 1
+    unsigned int     STATE02         :1; // 2
+    unsigned int     STATE03         :1; // 3
+    unsigned int     STATE04         :1; // 4
+    unsigned int     STATE05         :1; // 5
+    unsigned int     STATE06         :1; // 6
+    unsigned int     STATE07         :1; // 7
+    unsigned int     STATE08         :1; // 8
+    unsigned int     STATE09         :1; // 9
+    unsigned int     STATE10         :1; // 10
+    unsigned int     STATE11         :1; // 11
+    unsigned int     STATE12         :1; // 12
+    unsigned int     STATE13         :1; // 13
+    unsigned int     STATE14         :1; // 14
+    unsigned int     STATE15         :1; // 15
+};
+union SystemAlarm_REG
+{
+   unsigned int     all;
+   struct SystemAlarm_BIT bit;
+};
+struct SystemFault_BIT
+{       // bits   description
+    unsigned int     STATE00         :1; // 0
+    unsigned int     STATE01         :1; // 1
+    unsigned int     STATE02         :1; // 2
+    unsigned int     STATE03         :1; // 3
+    unsigned int     STATE04         :1; // 4
+    unsigned int     STATE05         :1; // 5
+    unsigned int     STATE06         :1; // 6
+    unsigned int     STATE07         :1; // 7
+    unsigned int     STATE08         :1; // 8
+    unsigned int     STATE09         :1; // 9
+    unsigned int     STATE10         :1; // 10
+    unsigned int     STATE11         :1; // 11
+    unsigned int     STATE12         :1; // 12
+    unsigned int     STATE13         :1; // 13
+    unsigned int     STATE14         :1; // 14
+    unsigned int     STATE15         :1; // 15
+};
+union SystemFault_REG
+{
+   unsigned int     all;
+   struct SystemFault_BIT bit;
+};
+struct SystemProtect_BIT
+{       // bits   description
+    unsigned int     STATE00         :1; // 0
+    unsigned int     STATE01         :1; // 1
+    unsigned int     STATE02         :1; // 2
+    unsigned int     STATE03         :1; // 3
+    unsigned int     STATE04         :1; // 4
+    unsigned int     STATE05         :1; // 5
+    unsigned int     STATE06         :1; // 6
+    unsigned int     STATE07         :1; // 7
+    unsigned int     STATE08         :1; // 8
+    unsigned int     STATE09         :1; // 9
+    unsigned int     STATE10         :1; // 10
+    unsigned int     STATE11         :1; // 11
+    unsigned int     STATE12         :1; // 12
+    unsigned int     STATE13         :1; // 13
+    unsigned int     STATE14         :1; // 14
+    unsigned int     STATE15         :1; // 15
+};
+union SystemProtect_REG
+{
+   unsigned int     all;
+   struct SystemProtect_BIT bit;
+};
+
+typedef struct System_Date
+{
+    /*
+     *
+     */
+    Uint16 Test;
+    Uint16 Maincount;
+    Uint16 MainIsr1;
+    Uint16 CANRXCOUNT;
+    Uint16 CANRXMailBox00Count;
+    Uint16 CANRXMailBox01Count;
+    Uint16 CANRXMailBox02Count;
+    Uint16 CANRXMailBox03Count;
+    Uint16 CANRXMailBox04Count;
+    Uint16 SysRegTimer5msecCount;
+    Uint16 SysRegTimer10msecCount;
+    Uint16 SysRegTimer50msecCount;
+    Uint16 SysRegTimer100msecCount;
+    Uint16 SysRegTimer300msecCount;
+    Uint16 SysRegTimer500msecCount;
+    Uint16 SysRegTimer1000msecCount;
+
+    /*
+     *
+    */
+    unsigned int LEDSycCount;
+    unsigned int LEDFaultCount;
+    unsigned int LEDCanCount;
+    unsigned int StartBATOUTOnCount;
+    unsigned int StartBATOUTOffCount;
+
+
+    SysState    SysMachine;
+    union       ParentDeviceCMD_REG         PMSysCMDResg;
+    union       SystemState_REG             SysStateReg;
+    union       SystemAlarm_REG             SysAlarmReg;
+    union       SystemFault_REG             SysFaultReg;
+    union       SystemProtect_REG           SysProtectReg;
+    union       DigitalInput_REG            DigitalInputReg;
+    union       DigitalOutPut_REG           DigitalOutPutReg;
+}SystemReg;
+
+typedef enum
+{
+  TIMER_STATE_IDLE,
+  TIMER_STATE_RUNNING,
+  TIMER_STATE_EXPIRED,
+  TIMER_STATE_CLEAR
+}TimerState;
+typedef struct
+{
+  TimerState state;
+  int TimeCount;
+  int Start,Stop,Reset,OutState;
+  unsigned int TimerVaule;
+}TimerReg;
+
+#endif  // end of DSP28x_PROJECT_H definition
+
