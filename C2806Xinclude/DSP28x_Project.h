@@ -206,9 +206,10 @@ typedef enum
 } SysState;
 struct SystemState_BIT
 {       // bits   description
-    unsigned int     SysStatus              :2; // 0,1
+
+    unsigned int     SysState               :2; // 0,1
     unsigned int     SysProtectStatus       :2; // 2,3
-    unsigned int     Systate                :3; // 4,5,6
+    unsigned int     SysStatus              :3; // 4,5,6 //
     unsigned int     SysRlyStatus           :3; // 7,8,9
     unsigned int     SysSOCStatus           :2; // 10,11
     unsigned int     SysSocMode             :1; // 12
@@ -223,16 +224,15 @@ struct SystemState_BIT
     unsigned int     PRlyDOStatus           :1; // 21
     unsigned int     PreRlyDOStatus         :1; // 22
     unsigned int     PwrHoldRlyDOStatus     :1; // 23
-    unsigned int     MSDERR                 :1; // 24
-    unsigned int     RlyERR                 :1; // 25
-    unsigned int     HMICOMEnable           :1; // 26
-    unsigned int     HMIBalanceMode         :1; // 27
-    unsigned int     CANCOMERR              :1; // 28
-    unsigned int     ISOSPICOMERR           :1; // 29
-    unsigned int     CellVoltOk             :1; // 30
-    unsigned int     CellTempsOk            :1; // 31
-//    unsigned int     ISORegERR              :1; // 27
-//    unsigned int     RlyERR                 :1; // 29
+    unsigned int     HMICOMEnable           :1; // 24
+    unsigned int     HMIBalanceMode         :1; // 25
+    unsigned int     CellVoltOk             :1; // 26
+    unsigned int     CellTempsOk            :1; // 27
+    unsigned int     CANEnable              :1; // 28
+    unsigned int     RlyERR                 :1; // 29
+    unsigned int     CANCOMERR              :1; // 30
+    unsigned int     ISOSPICOMERR           :1; // 31
+    unsigned int     ISORegERR              :1; // 32
 
 };
 union SystemState_REG
@@ -490,6 +490,10 @@ typedef struct System_Date
     Uint16  Test;
     Uint16  Maincount;
     Uint16  MainIsr1;
+    Uint16  CellVoltTempInit;
+    Uint16  CellVoltInit;
+    Uint16  CellTempInit;
+
     Uint16  CANRXCOUNT;
     Uint16  CanComEable;
     Uint16  CANRXMailBox00Count;
@@ -543,6 +547,7 @@ typedef struct System_Date
     float32 SysCellDivVoltageF;
     float32 BalanceRefVoltageF;
     float32 SysMaxTemperatureF;
+
     float32 SysCellMaxTemperatureF;
     float32 SysCellMinTemperatureF;
     float32 SysCellAgvTemperatureF;

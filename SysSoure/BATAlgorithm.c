@@ -875,7 +875,7 @@ void hermite_soc_40_60(SocReg *P)
     float32 dx   =0.0;
     float32 bufA = 0.0;
     float32 bufB = 0.0;
-    float32 bufC = 0.0;
+//    float32 bufC = 0.0;
     float32 h00  = 0.0;
     float32 h10=0.0;
     float32 h01=0.0;
@@ -888,7 +888,7 @@ void hermite_soc_40_60(SocReg *P)
 
     // basis
     bufB = bufA  * bufA ;
-    bufC = bufB  * bufA ;
+ //   bufC = bufB  * bufA ;
     h00 = (1.0f + 2.0f* bufA) * (1.0f -  bufA) * (1.0f - bufA); // 2t^3 - 3t^2 + 1
     h10 = bufA * (1.0f - bufA) * (1.0f - bufA);                 // t^3 - 2t^2 + t
     h01 = bufB * (3.0f - 2.0f*bufA);                            // -2t^3 + 3t^2

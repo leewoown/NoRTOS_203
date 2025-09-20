@@ -592,8 +592,32 @@ void SalveTempsHandler(SlaveReg *s)
     s->CellTemperatureBuf[s->TempsChSelet] =(int)(TempsVaule*10);
     if(s->TempsChSelet==0)
     {
-        memcpy(&s->CellTemperatureF[0], &s->CellTemperatureFBuf[0],sizeof(float32)*12);
-        memcpy(&s->CellTemperature[0],  &s->CellTemperatureBuf[0], sizeof(int)*12);
+        s->CellTemperatureF[0]  = s->CellTemperatureFBuf[0];
+        s->CellTemperatureF[1]  = s->CellTemperatureFBuf[1];
+        s->CellTemperatureF[2]  = s->CellTemperatureFBuf[2];
+        s->CellTemperatureF[3]  = s->CellTemperatureFBuf[3];
+        s->CellTemperatureF[4]  = s->CellTemperatureFBuf[4];
+        s->CellTemperatureF[5]  = s->CellTemperatureFBuf[5];
+        s->CellTemperatureF[6]  = s->CellTemperatureFBuf[6];
+        s->CellTemperatureF[7]  = s->CellTemperatureFBuf[7];
+        s->CellTemperatureF[8]  = s->CellTemperatureFBuf[8];
+        s->CellTemperatureF[9]  = s->CellTemperatureFBuf[9];
+        s->CellTemperatureF[10] = s->CellTemperatureFBuf[10];
+        s->CellTemperatureF[11] = s->CellTemperatureFBuf[11];
+
+        s->CellTemperature[0]   = s->CellTemperatureBuf[0];
+        s->CellTemperature[1]   = s->CellTemperatureBuf[1];
+        s->CellTemperature[2]   = s->CellTemperatureBuf[2];
+        s->CellTemperature[3]   = s->CellTemperatureBuf[3];
+        s->CellTemperature[4]   = s->CellTemperatureBuf[4];
+        s->CellTemperature[5]   = s->CellTemperatureBuf[5];
+        s->CellTemperature[6]   = s->CellTemperatureBuf[6];
+        s->CellTemperature[7]   = s->CellTemperatureBuf[7];
+        s->CellTemperature[8]   = s->CellTemperatureBuf[8];
+        s->CellTemperature[9]   = s->CellTemperatureBuf[9];
+        s->CellTemperature[10]  = s->CellTemperatureBuf[10];
+        s->CellTemperature[11]  = s->CellTemperatureBuf[11];
+
     }
 
 }
@@ -673,18 +697,18 @@ void SlaveVoltagHandler(SlaveReg *s)
        {
            s->ErrorCount++;
        }
-       s->CellVoltageF[0]     = (float32)s->CellVoltage[0]*0.001;  //1
-       s->CellVoltageF[1]     = (float32)s->CellVoltage[1]*0.001;  //2
-       s->CellVoltageF[2]     = (float32)s->CellVoltage[2]*0.001;  //3
-       s->CellVoltageF[3]     = (float32)s->CellVoltage[3]*0.001;  //4
-       s->CellVoltageF[4]     = (float32)s->CellVoltage[4]*0.001;  //5
-       s->CellVoltageF[5]     = (float32)s->CellVoltage[5]*0.001;  //6
-       s->CellVoltageF[6]     = (float32)s->CellVoltage[6]*0.001;  //7
-       s->CellVoltageF[7]     = (float32)s->CellVoltage[7]*0.001;  //8
-       s->CellVoltageF[8]     = (float32)s->CellVoltage[8]*0.001;  //9
-       s->CellVoltageF[9]     = (float32)s->CellVoltage[9]*0.001;  //10
-       s->CellVoltageF[10]    = (float32)s->CellVoltage[10]*0.001; //11
-       s->CellVoltageF[11]    = (float32)s->CellVoltage[11]*0.001; //11
+       s->CellVoltageF[0]     = (float32)(s->CellVoltage[0] *0.001f);  //1
+       s->CellVoltageF[1]     = (float32)(s->CellVoltage[1] *0.001f);  //2
+       s->CellVoltageF[2]     = (float32)(s->CellVoltage[2] *0.001f);  //3
+       s->CellVoltageF[3]     = (float32)(s->CellVoltage[3] *0.001f);  //4
+       s->CellVoltageF[4]     = (float32)(s->CellVoltage[4] *0.001f);  //5
+       s->CellVoltageF[5]     = (float32)(s->CellVoltage[5] *0.001f);  //6
+       s->CellVoltageF[6]     = (float32)(s->CellVoltage[6] *0.001f);  //7
+       s->CellVoltageF[7]     = (float32)(s->CellVoltage[7] *0.001f);  //8
+       s->CellVoltageF[8]     = (float32)(s->CellVoltage[8] *0.001f);  //9
+       s->CellVoltageF[9]     = (float32)(s->CellVoltage[9] *0.001f);  //10
+       s->CellVoltageF[10]    = (float32)(s->CellVoltage[10]*0.001f); //11
+       s->CellVoltageF[11]    = (float32)(s->CellVoltage[11]*0.001f); //11
     }
 
 

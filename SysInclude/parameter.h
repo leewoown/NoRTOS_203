@@ -322,9 +322,9 @@ Parameter
 #define     C_ModuleMEAEa                 15 // Module에서 측정하는 셀 전압 및 온도 개수를 정의함
 #define     C_SlaveBMSEa                  4
 
-#define     C_SysCellVoltEa               30//C_SysModuleEa*C_ModuleMEAEa // Battery Pack 내 Cell 전압 EA
-#define     C_SysCellTempEa               30//C_SysModuleEa*C_ModuleMEAEa // Battery Pack 내 Cell 온도 EA
-#define     C_CellNum                     30
+#define     C_SysCellVoltEa               14//C_SysModuleEa*C_ModuleMEAEa // Battery Pack 내 Cell 전압 EA
+#define     C_SysCellTempEa               14//C_SysModuleEa*C_ModuleMEAEa // Battery Pack 내 Cell 온도 EA
+#define     C_CellNum                     14
 #define     C_HmiCellVoltCount            9//C_SysCellVoltEa/3 //CAN TX  전송 위한 Cell 전압 개수 정의함
 #define     C_HmiCellTempCount            9//C_SysCellTempEa/3 //CAN TX  전송 위한 Cell 온도 개수 정의함
 #define     C_HMIISOSPIErrCount           C_SlaveBMSEa/3

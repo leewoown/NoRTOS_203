@@ -134,7 +134,9 @@ void SysVarINIT(SystemReg *s)
  //   s->PackCOMERR.all=0;
     s->SlaveISOSPIErrReg.all=0;
     s->IDSWReg.all=0;
-
+    s->CellVoltTempInit=0;
+    s->CellVoltInit=0;
+    s->CellTempInit=0;
 //    s->PackCOMERR.all=0;
 
     s->Test=0;
@@ -490,48 +492,46 @@ void MDCalVoltandTemsHandle(SystemReg *P)
 void SysCalVoltageHandle(SystemReg *s)
 {
 
-    Uint16  CellCount=0;
-    Uint16  CellSize=0;
-    Uint16  ModuleCount=0;
-    Uint16  ModuleSize=0;
-    float32 SysModuleMaxVoltageF=0.0;
-    float32 SysModuleMinVoltageF=0.0;
-    float32 SysCellMaxVoltageF=0;
-    float32 SysCellMinVoltageF=0;
-    float32 SysVoltageBufF=0;
+
+    const Uint16  CellSize  = 14;
+   // float32 CellVoltF       = 0;
+    Uint16  CellCount = 0;
+    float32 SysCellMaxVoltageF = 0.0f;
+    float32 SysCellMinVoltageF = 0.0f;
+    float32 SysVoltageBuff     = 0.0f;  // 합계
+    Uint16  idxMaxV = 0, idxMinV = 0;
+
     SysCellMaxVoltageF =s->SysCellVoltageF[0];
     SysCellMinVoltageF =s->SysCellVoltageF[0];
-    CellSize = C_SysCellVoltEa;//24
-    ModuleSize=C_SysModuleEa;
+
     for(CellCount=0;CellCount<CellSize;CellCount++)
     {
-         if (SysCellMaxVoltageF <= s->SysCellVoltageF[CellCount])
+         float32 CellVoltF =  s->SysCellVoltageF[CellCount];
+         SysVoltageBuff += CellVoltF;
+         if (CellVoltF >= SysCellMaxVoltageF)
          {
-             SysCellMaxVoltageF    =  s->SysCellVoltageF[CellCount];
-             s->SysVoltageMaxNum=CellCount;
+             SysCellMaxVoltageF   =  CellVoltF;
+             idxMaxV               =  CellCount;
          }
-         if (SysCellMinVoltageF >= s->SysCellVoltageF[CellCount])
+         if (CellVoltF <= SysCellMinVoltageF)
          {
-             SysCellMinVoltageF    =  s->SysCellVoltageF[CellCount];
-             s->SysVoltageMinNum=CellCount;
+             SysCellMinVoltageF  = CellVoltF;
+             idxMinV              = CellCount;
          }
     }
-    for(CellCount=0;CellCount<CellSize;CellCount++)
+
     s->SysCellMaxVoltageF    = SysCellMaxVoltageF;
     s->SysCellMinVoltageF    = SysCellMinVoltageF;
     s->SysCellDivVoltageF    = s->SysCellMaxVoltageF-s->SysCellMinVoltageF;
-    CellSize = C_SysCellVoltEa;
-    for(CellCount=0;CellCount<CellSize;CellCount++)
-    {
-        SysVoltageBufF = SysVoltageBufF+ s->SysCellVoltageF[CellCount];
-    }
-    s->SysPackVoltageF      = SysVoltageBufF;
-    s->SysCellAgvVoltageF   =  (float32)s->SysPackVoltageF/CellSize;
-
+    s->SysPackVoltageF       = SysVoltageBuff;
+    s->SysCellAgvVoltageF    = (float32)s->SysPackVoltageF/CellSize;
+    s->SysVoltageMaxNum      = idxMaxV;                              // 최대 전압 셀 번호
+    s->SysVoltageMinNum      = idxMinV;                              // 최소 전압 셀 번호
     //
-    SysModuleMinVoltageF =s->MDVoltageF[0];
-    SysModuleMaxVoltageF =s->MDVoltageF[0];
-    ModuleSize=2;
+  //  SysModuleMinVoltageF =s->MDVoltageF[0];
+  //  SysModuleMaxVoltageF =s->MDVoltageF[0];
+  //  ModuleSize=2;
+  /*
     for(ModuleCount=0;ModuleCount<ModuleSize;ModuleCount++)
     {
         if (SysModuleMaxVoltageF <= s->MDVoltageF[ModuleCount])
@@ -544,40 +544,42 @@ void SysCalVoltageHandle(SystemReg *s)
         }
     }
     s->SysPackParallelVoltageF= SysModuleMaxVoltageF;
+    */
 }
 void SysCalTemperatureHandle(SystemReg *s)
 {
-
+    const Uint16  CellSize  =  14;
     Uint16  CellCount=0;
-    Uint16  CellSize=0;
     float32 SysCellMaxTemperatureF=0;
     float32 SysCellMinTemperatureF=0;
     float32 SysTemperatureBufF=0;
+    Uint16  idxMaxT = 0, idxMinT = 0;
+
     SysCellMaxTemperatureF =s->SysCelltemperatureF[0];
     SysCellMinTemperatureF =s->SysCelltemperatureF[0];
-    CellSize = C_SysCellVoltEa;
+
     for(CellCount=0;CellCount<CellSize;CellCount++)
     {
-         if (SysCellMaxTemperatureF <= s->SysCelltemperatureF[CellCount])
+         float32 CellTempF=  s->SysCelltemperatureF[CellCount];
+         SysTemperatureBufF += CellTempF;
+
+         if(CellTempF >=SysCellMaxTemperatureF )
          {
-             SysCellMaxTemperatureF    =  s->SysCelltemperatureF[CellCount];
-             s->SysTemperatureMaxNum=CellCount;
+             SysCellMaxTemperatureF  =  CellTempF;
+             idxMaxT                 =  CellCount;
          }
-         if (SysCellMinTemperatureF >= s->SysCelltemperatureF[CellCount])
+         if(CellTempF <= SysCellMinTemperatureF)
          {
-             SysCellMinTemperatureF    =  s->SysCelltemperatureF[CellCount];
-             s->SysTemperatureMinNum=CellCount;
+             SysCellMinTemperatureF  = CellTempF;
+             idxMinT                 = CellCount;
          }
     }
-    s->SysCellMaxTemperatureF    = SysCellMaxTemperatureF;
-    s->SysCellMinTemperatureF    = SysCellMinTemperatureF;
-    s->SysCellDivTemperatureF    = s->SysCellMaxTemperatureF-s->SysCellMinTemperatureF;
-    CellSize = C_SysCellVoltEa;
-    for(CellCount=0;CellCount<CellSize;CellCount++)
-    {
-        SysTemperatureBufF = SysTemperatureBufF+ s->SysCelltemperatureF[CellCount];
-    }
-    s->SysCellAgvTemperatureF   = (float32)SysTemperatureBufF/CellSize;
+    s->SysCellMaxTemperatureF   = SysCellMaxTemperatureF;
+    s->SysCellMinTemperatureF   = SysCellMinTemperatureF;
+    s->SysCellDivTemperatureF   = SysCellMaxTemperatureF-SysCellMinTemperatureF;
+    s->SysCellAgvTemperatureF   = (float32)(SysTemperatureBufF/14.0);
+    s->SysTemperatureMaxNum     = idxMaxT;
+    s->SysTemperatureMinNum     = idxMinT;
 }
 
 void SysCalCurrentHandle(SystemReg *s)
